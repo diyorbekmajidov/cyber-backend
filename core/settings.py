@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-$()o3=pa1gee&3!pnjuhp!h+2!49fd=*3t-$go$t664jr(0aug
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin', #django admin teplate view change
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
