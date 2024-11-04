@@ -33,8 +33,11 @@ def GetPerson(request, pk):
 
 class TestTemplate(APIView):
     def get(self, request):
-        data = Question.objects.order_by('?')
-        serializer = QuestionSerializer(data, many=True)
-        return Response(serializer.data[:20])
+        try:
+            data = Question.objects.order_by('?')
+            serializer = QuestionSerializer(data, many=True)
+            return Response(serializer.data[:20])
+        except Question.DoesNotExist:
+            return JsonResponse({"ok":"test topilmadi."})
     
         
