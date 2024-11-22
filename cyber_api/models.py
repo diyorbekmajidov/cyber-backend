@@ -29,11 +29,17 @@ class Quiz(models.Model):
     def __str__(self):
         return self.title
     
-    
+class Topic(models.Model):
+    title = models.IntegerField()
+    description = models.TextField(blank=True, null=True)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.title)  
     
 class Question(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     title = models.TextField()
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     img = models.ImageField(upload_to='img/', blank=True, null=True)
     option_type = models.CharField(max_length=200, blank=True, null=True)
 
@@ -42,9 +48,10 @@ class Question(models.Model):
 
     def __str__(self):
         return self.title
+
     
 class QuestionText(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete = models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete = models.CASCADE)
     text = models.TextField()
 
     def save(self, *args, **kwargs):
@@ -69,7 +76,7 @@ class QuestionText(models.Model):
 
                 # Create the question
                 question = Question.objects.create(
-                    quiz=self.quiz,
+                    topic=self.topic,
                     title=question_text,
                 )
 
@@ -83,7 +90,7 @@ class QuestionText(models.Model):
         super().save(*args, **kwargs)  
 
     def __str__(self):
-        return self.quiz.title
+        return self.topic.title
 
 
 class Option(models.Model):

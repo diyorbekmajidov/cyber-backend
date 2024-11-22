@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (Person, Question, Quiz, Option, QuestionText)
+from .models import (Person, Question, Quiz, Option, QuestionText, Topic)
 
 
 admin.site.register(Person)
@@ -15,3 +15,4 @@ class QuestionAdmin(admin.ModelAdmin):
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option)
 admin.site.register(QuestionText)
+admin.site.register(Topic)

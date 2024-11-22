@@ -2,11 +2,11 @@ from django.shortcuts import render, HttpResponse
 from rest_framework.decorators import api_view, renderer_classes
 from django.http import JsonResponse
 from rest_framework.views import APIView
-from .serializers import PersonSerializers, QuestionSerializer, OptionSerializer
+from .serializers import PersonSerializers, QuestionSerializer, OptionSerializer,TopicSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework import status
-from .models import Person, Question, Quiz
+from .models import Person, Question, Quiz, Topic
 import random
 
 
@@ -30,6 +30,12 @@ def GetPerson(request, pk):
         except Person.DoesNotExist:
             return Response({"error": "Person not found"}, status=404)
         
+
+class TopicApi(APIView):
+    def get(self, request, title):
+        data = Topic.objects.get(title=title)
+        serializer = TopicSerializer(data)
+        return Response(serializer.data)
 
 class TestTemplate(APIView):
     def get(self, request):
