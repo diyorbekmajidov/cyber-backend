@@ -32,18 +32,24 @@ def GetPerson(request, pk):
         
 
 class TopicApi(APIView):
-    def get(self, request, title):
-        data = Topic.objects.get(title=title)
-        serializer = TopicSerializer(data)
+    def get(self, request):
+        data = Topic.objects.all()
+        serializer = TopicSerializer(data, many=True)
         return Response(serializer.data)
 
 class TestTemplate(APIView):
     def get(self, request):
+        topic_id = request.query_params.get('topic_id')  # URL'dan topic_id ni olish
+        if not topic_id:
+            return JsonResponse({"error": "Topic ID yuborilmadi."}, status=400)
+
         try:
-            data = Question.objects.order_by('?')
+            # Tanlangan mavzuga oid savollarni olish
+            data = Question.objects.filter(topic_id=topic_id).order_by('?')  # Filtrlash
             serializer = QuestionSerializer(data, many=True)
-            return Response(serializer.data[:20])
+            return Response(serializer.data[:20])  # Birinchi 20 ta savolni qaytarish
         except Question.DoesNotExist:
-            return JsonResponse({"ok":"test topilmadi."})
+            return JsonResponse({"error": "Berilgan mavzuga oid test topilmadi."}, status=404)
+
     
         
