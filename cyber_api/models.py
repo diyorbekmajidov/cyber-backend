@@ -90,7 +90,7 @@ class QuestionText(models.Model):
         super().save(*args, **kwargs)  
 
     def __str__(self):
-        return self.topic.title
+        return str(self.topic.title)
 
 
 class Option(models.Model):
